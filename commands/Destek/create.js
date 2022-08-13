@@ -26,7 +26,7 @@ module.exports = {
             return;
         }
         
-        if (message.member.roles.cache.some(role => ["Destek Yasağı"].includes(role.name))) {
+        if (message.member.roles.cache.some(role => [config.ticketBanRole].includes(role.id))) {
             const sendMsg = await message.reply({ content: 'Destek taleplerinden yasaklanmışsınız.' });
             deleteMsg(sendMsg, message);
             return;
@@ -131,7 +131,7 @@ module.exports = {
                     inline: false,
                 }
             )
-            .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() });
+            .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) });
         
         try {
             (await cha).send({ embeds: [embed], components: [buttons] });
