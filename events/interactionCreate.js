@@ -148,15 +148,15 @@ exports.ticketCreate = async (interaction) => {
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         var embed = new MessageEmbed()
-            .setAuthor({ name: "• Log", iconURL: message.guild.iconURL({ dynamic: true }) })
-            .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
+            .setAuthor({ name: "• Log", iconURL: interaction.guild.iconURL({ dynamic: true }) })
+            .setFooter({ text: 'Developed by xaprier', iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
             .setTimestamp();
         
         const logChannel = interaction.guild.channels.cache.get(config.logChannel);
         
         if (interaction.customId === "destek-kapat") {
             if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
-                embed.setDescription(`${interaction.member} destek talebini kapatmaya çalıştı`).setColor("RED");
+                embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatmaya çalıştı`).setColor("RED");
                 logChannel.send({ embeds: [embed] });
                 interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
                 return;
