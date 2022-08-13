@@ -21,7 +21,7 @@ module.exports = {
         }
         const commandChannel = message.guild.channels.cache.get(`${config.onlyCommands}`);
         var embed = new MessageEmbed().setFooter({ text: `Developed by XAPRIER`, iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) }).setTimestamp().setAuthor({ name: ``, iconURL: message.guild.iconURL({ dynamic: true }) }).setColor("ORANGE");
-        if (message.channel.id == `1006642883207630899`) {
+        if (message.channel.id == commandChannel.id) {
             const directories = [...new Set(client.commands.map(cmd => cmd.directory))];
 
             const formatString = (str) => `${str[0].toUpperCase()}${str.slice(1).toLowerCase()}`;
