@@ -8,7 +8,7 @@ client.on("messageReactionAdd", async (interaction, ruser) => {
         
         user.roles.add(interaction.message.guild.roles.cache.find(r => r.id == `${config.recordRole}`));
 
-        const embed = new MessageEmbed().setAuthor("• Kayıt", interaction.message.guild.iconURL({ dynamic: true })).setDescription(`${user.user.tag} oyuncusu tepki vererek kayıt oldu`).setFooter("Developed by xaprier", interaction.message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true })).setColor("ORANGE").setTimestamp();
+        const embed = new MessageEmbed().setAuthor({ name: "• Kayıt", iconURL: interaction.message.guild.iconURL({ dynamic: true }) }).setDescription(`${user.user.tag} oyuncusu tepki vererek kayıt oldu`).setFooter("Developed by xaprier", interaction.message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true })).setColor("ORANGE").setTimestamp();
 
         interaction.message.guild.channels.cache.get(`${config.logChannel}`).send({ embeds: [embed] });
         
