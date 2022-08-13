@@ -1,4 +1,4 @@
-const { Message, Client, MessageEmbed } = require("discord.js");
+const { Message, Client } = require("discord.js");
 
 function deleteMsg(msg1, msg2) {
     setTimeout(() => {
