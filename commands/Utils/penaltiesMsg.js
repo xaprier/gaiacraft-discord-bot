@@ -21,7 +21,7 @@ module.exports = {
                     { name: `Sebepler`, value: `**Hakaret**\n**Kışkırtma**\n**Küfür**\n**Ailevi Küfür**\n**Tehdit**\n**Kavga**\n**Spam**\n**Harf Uzatma**\n**Reklam**\n**Sunucu Hakaret**\n**Yetkili Hakaret**\n**Yetkili Kışkırtma**\n**Yetkili Küfür**\n**Yetkili Ailevi Küfür**\n**Yetkili Tehdit**\n**Dini Küfür/Hakaret**`, inline: true },
                     { name: `Cezalar`, value: `**»** 2 saat susturma\n**»** 2 saat susturma\n**»** 4 saat susturma\n**»** 8 saat susturma\n**»** 8 saat susturma\n**»** 30 dakika susturma\n**»** 30 dakika susturma\n**»** 30 dakika susturma\n**»** 1 yıl susturma\n**»** 1 gün susturma\n**»** 4 saat susturma\n**»** 4 saat susturma\n**»** 8 saat susturma\n**»** 16 saat susturma\n**»** 16 saat susturma\n**»** 1 yıl susturma`, inline: true }
                 )
-                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() })
+                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
                 .setColor("ORANGE")
                 .setTimestamp();
             try {
