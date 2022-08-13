@@ -19,7 +19,7 @@ module.exports = {
                 .setAuthor({ name: `Sohbet`, iconURL: message.guild.iconURL({ dynamic: true }) })
                 .setDescription(`Oyunda veya Discord'da Küfür, Hakaret, Spam, Reklam, Kışkırtma, Tehdit, Capslock, Harf Uzatma; susturma veya yasaklama cezalarına tâbi tutulur. Ceza hakkında bilgi almak için <#${config.punishChannel}> kanalını görüntüleyebilirsiniz.`)
                 .setColor("ORANGE")
-                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
+                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
                 .setTimestamp();
             try {
                 ruleChannel.send({ embeds: [embed] });

@@ -19,7 +19,7 @@ module.exports = {
                 .setAuthor({ name: `Gaia Nedir`, iconURL: message.guild.iconURL({ dynamic: true }) })
                 .setDescription(`Gaia, Yunan Mitolojisinde yeryüzünü simgeleyen tanrıçadır. Bu tanrıça bir ana tanrıça, doğa ana olan ve diğer tanrıçaların kendisinden türemiş olup en başta Yunan'lar tapsa da zaman içinde onun konumu değişmiş ve ona olan ilgi azalmıştır. Minecraft, doğanın bulunduğu bir hayatta kalma oyunu olup, sizlere bu oyunda bambaşka bir dünya oluşturduğumuz için GaiaCraft ismini tercih ettik.`)
                 .setColor("ORANGE")
-                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
+                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
                 .setTimestamp();
             try {
                 infoChannel.send({ embeds: [embed] });
