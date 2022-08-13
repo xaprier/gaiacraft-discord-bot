@@ -15,7 +15,7 @@ client.on("messageCreate", async (message) => {
 
     let embed = new MessageEmbed()
     .setAuthor({ name: "• Log", iconURL: message.guild.iconURL({ dynamic: true }) })
-    .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() })
+    .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
     .setTimestamp();
 
     if (!command) {

@@ -25,7 +25,7 @@ module.exports = {
                     { name: `YouTube Adresimiz;`, value: `https://www.youtube.com/channel/UCB0fqW6gWxqy7oir7lRM9wg` }
                 )
                 .setColor("ORANGE")
-                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() })
+                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
                 .setTimestamp();
             try {
                 addressChannel.send({ embeds: [embed] });

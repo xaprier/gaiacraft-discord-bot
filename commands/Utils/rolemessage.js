@@ -18,7 +18,7 @@ module.exports = {
                 .setAuthor({ name: "• Tepki Rol", iconURL: message.guild.iconURL({ dynamic: true }) })
                 .setDescription("Rol almak için lütfen mesaja tepki veriniz")
                 .setColor("ORANGE")
-                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() })
+                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
                 .setTimestamp();
             const msg = await recordChannel.send({ embeds: [embed] });
             message.delete();

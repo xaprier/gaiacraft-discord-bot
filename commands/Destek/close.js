@@ -41,7 +41,7 @@ module.exports = {
                     inline: true,
                 },
             )
-            .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() });
+            .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) });
         
         try {
             message.channel.send({ embeds: [embed] }).then(msg => {
@@ -75,7 +75,7 @@ module.exports = {
                             .setColor("ORANGE")
                             .setAuthor({ name: `| Destek`, iconURL: message.author.displayAvatarURL() })
                             .setDescription("Kapatma iptal edildi")
-                            .setFooter({ text: 'Developed by xaprier', url: message.guild.members.cache.get(config.developer).avatarURL() });
+                            .setFooter({ text: 'Developed by xaprier', url: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) });
                         
                         message.channel.send({ embeds: [embed2] });
                     }
