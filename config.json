@@ -17,5 +17,7 @@
     "addressChannel": "address-channel-for-embedmessages",
     "recordChannel": "record-channel-for-embedmessages",
     "recordRole": "record-role-for-giving-role-on-reaction-role",
-    "logChannel": "logging-channel"
+    "logChannel": "logging-channel",
+    "ticketChannel": "which-channel-ticket-message-is-going-to-send",
+    "ticketBanRole": "banned-role-for-restrict-user-from-ticket"
 }
