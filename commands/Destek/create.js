@@ -1,4 +1,4 @@
-const { Message, Client, MessageEmbed } = require("discord.js");
+const { Message, Client, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const config = require("../../config.json")
 
 function deleteMsg(msg1, msg2) {
@@ -10,6 +10,7 @@ function deleteMsg(msg1, msg2) {
 module.exports = {
     name: "destek",
     aliases: ['ticket'],
+    description: "Destek talebi oluşturur",
     permission: [],
     /**
      *
@@ -19,7 +20,7 @@ module.exports = {
      */
     run: async (client, message, args) => {
         // controls
-        if (message.channel.name != "・💢・komut-kanalı") {
+        if (message.channel.id != config.onlyCommands) {
             const sendMsg = await message.reply({ content: `Komutları <#${config.onlyCommands}> kanalında kullanınız.` });
             deleteMsg(sendMsg, message);
             return;
@@ -97,11 +98,17 @@ module.exports = {
             })
         } catch(e) { console.log(e); }
         
+        const buttons = new MessageActionRow().addComponents(
+            new MessageButton()
+                .setCustomId("destek-kapat")
+                .setLabel("Talep Kapat")
+                .setStyle("DANGER"),
+        )
 
         var embed = new MessageEmbed()
             .setTimestamp()
             .setColor("ORANGE")
-            .setAuthor(`Hoşgeldiniz ${message.author.username}`, message.author.displayAvatarURL())
+            .setAuthor({ name: `Hoşgeldiniz ${message.author.username}`, iconURL: message.author.displayAvatarURL()})
             .addFields(
                 {
                     name: "`Bilgilendirme`",
@@ -127,7 +134,7 @@ module.exports = {
             .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL() });
         
         try {
-            (await cha).send({ embeds: [embed] });
+            (await cha).send({ embeds: [embed], components: [buttons] });
             await message.reply({ content: `Başarıyla bilet oluşturdunuz, kanala gitmek için <#${(await cha).id}> tıklayınız.` });
             deleteMsg(message);
         } catch(e) { console.log(e); }
