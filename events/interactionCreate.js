@@ -10,7 +10,7 @@ exports.closeCollector = (interaction) => {
         .addFields(
             {
                 name: "Desteği biletini kapatmak istiyor musunuz?",
-                value: `**Evet » ✅ **\n**Hayır » ❌ **`,
+                value: `**Evet » Onayla **\n**Hayır » Reddet **`,
                 inline: true,
             },
         )
@@ -113,7 +113,7 @@ exports.ticketCreate = async (interaction) => {
     var embed = new MessageEmbed()
         .setTimestamp()
         .setColor("ORANGE")
-        .setAuthor({ name: `Hoşgeldiniz ${interaction.member.username}`, iconURL: interaction.member.displayAvatarURL({ dynamic: true })})
+        .setAuthor({ name: `Hoşgeldiniz ${interaction.toString().startsWith(config.prefix) ? interaction.author.tag : interaction.member.username}`, iconURL: interaction.member.displayAvatarURL({ dynamic: true })})
         .addFields(
             {
                 name: "`Bilgilendirme`",
