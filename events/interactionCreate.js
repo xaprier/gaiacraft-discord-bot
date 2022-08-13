@@ -147,17 +147,33 @@ exports.ticketCreate = async (interaction) => {
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
+        var embed = new MessageEmbed()
+            .setAuthor({ name: "• Log", iconURL: message.guild.iconURL({ dynamic: true }) })
+            .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
+            .setTimestamp();
+        
+        const logChannel = interaction.guild.channels.cache.get(config.logChannel);
+        
         if (interaction.customId === "destek-kapat") {
             if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
                 interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
                 return;
             }
+
+            embed.setDescription(`${interaction.member} destek talebini kapatma işlemi başlattı`);
+            logChannel.send({ embeds: [embed] });
+            
             this.closeCollector(interaction);
         } else if (interaction.customId === "destek-onayla") {
             if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
                 interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
+                embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı`);
+                logChannel.send({ embeds: [embed] });
                 return;
             }
+
+            embed.setDescription(`${interaction.member} destek talebini kapatma işlemini onayladı`);
+            logChannel.send({ embeds: [embed] });
 
             interaction.guild.channels.cache.find(c => c.name == "Talepler" && c.type == "GUILD_CATEGORY").permissionOverwrites.edit(interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")), { VIEW_CHANNEL: false });
 
@@ -173,6 +189,8 @@ client.on('interactionCreate', async (interaction) => {
         } else if (interaction.customId === "destek-reddet") {
             if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
                 interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
+                embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı`);
+                logChannel.send({ embeds: [embed] });
                 return;
             }
 
@@ -184,6 +202,8 @@ client.on('interactionCreate', async (interaction) => {
                 .setFooter({ text: 'Developed by xaprier', url: interaction.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) });
                     
             interaction.reply({ embeds: [embed2] });
+            embed.setDescription(`${interaction.member} destek talebini kapatma işlemini reddetti`);
+            logChannel.send({ embeds: [embed] });
         } else if (interaction.customId === "destek-oluştur") {
             this.ticketCreate(interaction);
         }
