@@ -18,7 +18,7 @@ module.exports = {
             var embed = new MessageEmbed()
                 .setAuthor({ name: `Sorumluluklar`, iconURL: message.guild.iconURL({ dynamic: true }) })
                 .setDescription(`Hesap güvenliği ve eşya kaybı sorumluluğu size aittir. GaiaCraft yalnızca kendi sebep olduğu durumların sorumlusudur.`)
-                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) })
+                .setFooter({ text: 'Developed by xaprier', iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
                 .setColor("ORANGE")
                 .setTimestamp();
             try {

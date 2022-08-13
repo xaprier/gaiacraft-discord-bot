@@ -20,7 +20,7 @@ module.exports = {
             ticket: `📩`,
         }
         const commandChannel = message.guild.channels.cache.get(`${config.onlyCommands}`);
-        var embed = new MessageEmbed().setFooter({ text: `Developed by XAPRIER`, iconURL: message.guild.members.cache.get(config.developer).avatarURL({ dynamic: true }) }).setTimestamp().setAuthor({ name: ``, iconURL: message.guild.iconURL({ dynamic: true }) }).setColor("ORANGE");
+        var embed = new MessageEmbed().setFooter({ text: `Developed by XAPRIER`, iconURL: message.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) }).setTimestamp().setAuthor({ name: ``, iconURL: message.guild.iconURL({ dynamic: true }) }).setColor("ORANGE");
         if (message.channel.id == `1006642883207630899`) {
             const directories = [...new Set(client.commands.map(cmd => cmd.directory))];
 
