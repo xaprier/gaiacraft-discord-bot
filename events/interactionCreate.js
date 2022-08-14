@@ -1,12 +1,12 @@
 const client = require("../index");
 const config = require("../config.json");
-const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = require("discord.js");
+const {MessageEmbed, MessageActionRow, MessageButton} = require("discord.js");
 
 exports.closeCollector = (interaction) => {
     var embed = new MessageEmbed()
         .setTimestamp()
         .setColor("ORANGE")
-        .setAuthor({ name: `| Destek`, iconURL: interaction.member.displayAvatarURL({ dynamic: true}) })
+        .setAuthor({name: `| Destek`, iconURL: interaction.member.displayAvatarURL({dynamic: true})})
         .addFields(
             {
                 name: "Desteği biletini kapatmak istiyor musunuz?",
@@ -14,8 +14,11 @@ exports.closeCollector = (interaction) => {
                 inline: true,
             },
         )
-        .setFooter({ text: 'Developed by xaprier', iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) });
-    
+        .setFooter({
+            text: 'Developed by xaprier',
+            iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
+        });
+
     const buttons = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("destek-onayla")
@@ -26,29 +29,29 @@ exports.closeCollector = (interaction) => {
             .setLabel("Reddet")
             .setStyle("DANGER")
     )
-    interaction.reply({ embeds: [embed], components: [buttons] });
+    interaction.reply({embeds: [embed], components: [buttons]});
 }
 
 exports.ticketCreate = async (interaction) => {
     if (interaction.member.roles.cache.some(role => [config.ticketBanRole].includes(role.id))) {
-        const msg = await interaction.reply({ content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}> destek taleplerinden yasaklandığınız için talep oluşturamazsınız.` });
+        const msg = await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}> destek taleplerinden yasaklandığınız için talep oluşturamazsınız.`});
         setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
         return;
     }
 
     if (interaction.member.roles.cache.some(r => [`${config.ticketAttendant}`].includes(r.id))) {
-        const msg = await interaction.reply({ content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, destek yetkilisi destek talebi oluşturamaz!`});
+        const msg = await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, destek yetkilisi destek talebi oluşturamaz!`});
         setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
         return;
     }
 
-    if (interaction.guild.channels.cache.find(c => c.name == `talep-${interaction.member.id}`)) {
-        const msg = await interaction.reply({ content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, zaten açık bir destek talebiniz var! Bir sorun olduğunu düşünüyorsanız yetkiliyle iletişime geçiniz.`});
+    if (interaction.guild.channels.cache.find(c => c.name === `talep-${interaction.member.id}`)) {
+        const msg = await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, zaten açık bir destek talebiniz var! Bir sorun olduğunu düşünüyorsanız yetkiliyle iletişime geçiniz.`});
         setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
         return;
     }
 
-    let findCategory = interaction.guild.channels.cache.find(c => c.name == "Talepler" && c.type == "GUILD_CATEGORY");
+    let findCategory = interaction.guild.channels.cache.find(c => c.name === "Talepler" && c.type === "GUILD_CATEGORY");
     if (!findCategory) {
         try {
             findCategory = interaction.guild.channels.create("Talepler", {
@@ -70,14 +73,16 @@ exports.ticketCreate = async (interaction) => {
                 ]
             })
         } catch (e) {
-        console.log(e);
+            console.log(e);
         }
     } else {
         try {
             findCategory.permissionOverwrites.edit(interaction.member, {
                 VIEW_CHANNEL: true,
             })
-        } catch (e) { console.log(e); }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     let cha;
@@ -101,8 +106,10 @@ exports.ticketCreate = async (interaction) => {
             ],
             parent: findCategory
         })
-    } catch (e) { console.log(e); }
-    
+    } catch (e) {
+        console.log(e);
+    }
+
     const buttons = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("destek-kapat")
@@ -113,7 +120,10 @@ exports.ticketCreate = async (interaction) => {
     var embed = new MessageEmbed()
         .setTimestamp()
         .setColor("ORANGE")
-        .setAuthor({ name: `Hoşgeldiniz ${interaction.toString().startsWith(config.prefix) ? interaction.author.tag : interaction.member.username}`, iconURL: interaction.member.displayAvatarURL({ dynamic: true })})
+        .setAuthor({
+            name: `Hoşgeldiniz ${interaction.toString().startsWith(config.prefix) ? interaction.author.tag : interaction.member.username}`,
+            iconURL: interaction.member.displayAvatarURL({dynamic: true})
+        })
         .addFields(
             {
                 name: "`Bilgilendirme`",
@@ -136,76 +146,87 @@ exports.ticketCreate = async (interaction) => {
                 inline: false,
             }
         )
-        .setFooter({ text: 'Developed by xaprier', iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) });
-    
+        .setFooter({
+            text: 'Developed by xaprier',
+            iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
+        });
+
     try {
-        (await cha).send({ embeds: [embed], components: [buttons] });
-        const msg = await interaction.reply({ content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${(await cha).id}> tıklayınız.` });
+        (await cha).send({embeds: [embed], components: [buttons]});
+        const msg = await interaction.reply({content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${(await cha).id}> tıklayınız.`});
         setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
-    } catch(e) { console.log(e); }
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         var embed = new MessageEmbed()
-            .setAuthor({ name: "• Log", iconURL: interaction.guild.iconURL({ dynamic: true }) })
-            .setFooter({ text: 'Developed by xaprier', iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) })
+            .setAuthor({name: "• Log", iconURL: interaction.guild.iconURL({dynamic: true})})
+            .setFooter({
+                text: 'Developed by xaprier',
+                iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
+            })
             .setTimestamp();
-        
+
         const logChannel = interaction.guild.channels.cache.get(config.logChannel);
-        
+
         if (interaction.customId === "destek-kapat") {
-            if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
+            if (interaction.member.id !== interaction.channel.name.split("talep-").join("")) {
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatmaya çalıştı`).setColor("RED");
-                logChannel.send({ embeds: [embed] });
-                interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
+                logChannel.send({embeds: [embed]});
+                interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`});
                 return;
             }
 
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemi başlattı`).setColor("GREEN")
-            logChannel.send({ embeds: [embed] });
-            
+            logChannel.send({embeds: [embed]});
+
             this.closeCollector(interaction);
         } else if (interaction.customId === "destek-onayla") {
-            if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
-                interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
+            if (interaction.member.id !== interaction.channel.name.split("talep-").join("")) {
+                interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`});
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı`).setColor("RED");
-                logChannel.send({ embeds: [embed] });
+                logChannel.send({embeds: [embed]});
                 return;
             }
 
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemini onayladı`).setColor("GREEN")
-            logChannel.send({ embeds: [embed] });
+            logChannel.send({embeds: [embed]});
 
-            interaction.guild.channels.cache.find(c => c.name == "Talepler" && c.type == "GUILD_CATEGORY").permissionOverwrites.edit(interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")), { VIEW_CHANNEL: false });
+            interaction.guild.channels.cache.find(c => c.name === "Talepler" && c.type === "GUILD_CATEGORY").permissionOverwrites.edit(interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")), {VIEW_CHANNEL: false});
 
             interaction.channel.permissionOverwrites.set([{
                 id: interaction.guild.roles.everyone,
                 deny: 'VIEW_CHANNEL',
             }]);
 
-            interaction.channel.setParent(interaction.guild.channels.cache.find(cha => cha.name == "Kapalı Talepler" && cha.type == "GUILD_CATEGORY"));
+            interaction.channel.setParent(interaction.guild.channels.cache.find(cha => cha.name === "Kapalı Talepler" && cha.type === "GUILD_CATEGORY"));
             interaction.channel.setName(`kapalı-${interaction.channel.name.split("talep-").join("")}`);
 
-            interaction.reply({ content: `Bu destek talebi <@${interaction.member.id}> tarafından kapatılmıştır.` });
+            interaction.reply({content: `Bu destek talebi <@${interaction.member.id}> tarafından kapatılmıştır.`});
         } else if (interaction.customId === "destek-reddet") {
-            if (interaction.member.id != interaction.channel.name.split("talep-").join("")) {
-                interaction.reply({ content: `Sadece talep sahibi, talebi kapatabilir` });
+            if (interaction.member.id !== interaction.channel.name.split("talep-").join("")) {
+                interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`});
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı`).setColor("RED");
-                logChannel.send({ embeds: [embed] });
+                logChannel.send({embeds: [embed]});
                 return;
             }
 
             var embed2 = new MessageEmbed()
                 .setTimestamp()
                 .setColor("ORANGE")
-                .setAuthor({ name: `| Destek`, iconURL: interaction.member.displayAvatarURL() })
+                .setAuthor({name: `| Destek`, iconURL: interaction.member.displayAvatarURL()})
                 .setDescription("Kapatma iptal edildi")
-                .setFooter({ text: 'Developed by xaprier', url: interaction.guild.members.cache.get(config.developer).displayAvatarURL({ dynamic: true }) });
-                    
-            interaction.reply({ embeds: [embed2] });
+                .setFooter({
+                    text: 'Developed by xaprier',
+                    url: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
+                });
+
+            interaction.reply({embeds: [embed2]});
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemini reddetti`).setColor("GREEN")
-            logChannel.send({ embeds: [embed] });
+            logChannel.send({embeds: [embed]});
         } else if (interaction.customId === "destek-oluştur") {
             this.ticketCreate(interaction);
         }
