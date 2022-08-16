@@ -113,7 +113,7 @@ exports.ticketCreate = async (interaction) => {
     const buttons = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("destek-kapat")
-            .setLabel("Talep Kapat")
+            .setLabel("🔐 Talep Kapat")
             .setStyle("DANGER"),
     )
 
