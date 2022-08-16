@@ -10,7 +10,7 @@ module.exports = {
         const user = message.guild.members.cache.get(message.author.id);
         const ticketChannel = message.guild.channels.cache.find(cha => cha.id === `${config.ticketChannel}`);
         if (user.permissions.has("ADMINISTRATOR")) {
-            let embed = new MessageEmbed()
+            const embed = new MessageEmbed()
                 .setAuthor({name: `• Destek`, iconURL: message.guild.iconURL({dynamic: true})})
                 .setColor("ORANGE")
                 .setFooter({
