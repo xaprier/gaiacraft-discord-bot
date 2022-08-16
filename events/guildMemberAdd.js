@@ -1,3 +1,5 @@
+// noinspection JSCheckFunctionSignatures
+
 const client = require("../index");
 const config = require("../config.json");
 const {MessageEmbed} = require("discord.js");
