@@ -1,9 +1,11 @@
+// noinspection JSCheckFunctionSignatures
+
 const client = require("../index");
 const config = require("../config.json");
 const {MessageEmbed, MessageActionRow, MessageButton} = require("discord.js");
 
 exports.closeCollector = (interaction) => {
-    var embed = new MessageEmbed()
+    const embed = new MessageEmbed()
         .setTimestamp()
         .setColor("ORANGE")
         .setAuthor({name: `| Destek`, iconURL: interaction.member.displayAvatarURL({dynamic: true})})
@@ -19,6 +21,7 @@ exports.closeCollector = (interaction) => {
             iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
         });
 
+    // noinspection JSCheckFunctionSignatures
     const buttons = new MessageActionRow().addComponents(
         new MessageButton()
             .setCustomId("destek-onayla")
@@ -77,7 +80,7 @@ exports.ticketCreate = async (interaction) => {
         }
     } else {
         try {
-            findCategory.permissionOverwrites.edit(interaction.member, {
+            await findCategory.permissionOverwrites.edit(interaction.member, {
                 VIEW_CHANNEL: true,
             })
         } catch (e) {
@@ -117,7 +120,7 @@ exports.ticketCreate = async (interaction) => {
             .setStyle("DANGER"),
     )
 
-    var embed = new MessageEmbed()
+    const embed = new MessageEmbed()
         .setTimestamp()
         .setColor("ORANGE")
         .setAuthor({
@@ -152,8 +155,8 @@ exports.ticketCreate = async (interaction) => {
         });
 
     try {
-        (await cha).send({embeds: [embed], components: [buttons]});
-        const msg = await interaction.reply({content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${(await cha).id}> tıklayınız.`});
+        await cha.send({embeds: [embed], components: [buttons]});
+        const msg = await interaction.reply({content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${cha.id}> tıklayınız.`});
         setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
     } catch (e) {
         console.log(e);
@@ -162,7 +165,7 @@ exports.ticketCreate = async (interaction) => {
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
-        var embed = new MessageEmbed()
+        const embed = new MessageEmbed()
             .setAuthor({name: "• Log", iconURL: interaction.guild.iconURL({dynamic: true})})
             .setFooter({
                 text: 'Developed by xaprier',
@@ -214,14 +217,14 @@ client.on('interactionCreate', async (interaction) => {
                 return;
             }
 
-            var embed2 = new MessageEmbed()
+            const embed2 = new MessageEmbed()
                 .setTimestamp()
                 .setColor("ORANGE")
-                .setAuthor({name: `| Destek`, iconURL: interaction.member.displayAvatarURL()})
+                .setAuthor({name: `| Destek`, iconURL: interaction.member.displayAvatarURL({dynamic: true})})
                 .setDescription("Kapatma iptal edildi")
                 .setFooter({
                     text: 'Developed by xaprier',
-                    url: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
+                    url: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true}) || null
                 });
 
             interaction.reply({embeds: [embed2]});
