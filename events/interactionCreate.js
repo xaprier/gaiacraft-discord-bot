@@ -5,7 +5,6 @@ const config = require("../config.json");
 const functions = require("../commands/Utils/funcs");
 const {MessageEmbed} = require("discord.js");
 
-
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
         const embed = new MessageEmbed()
@@ -25,7 +24,6 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`});
                 return;
             }
-
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemi başlattı`).setColor("GREEN")
             logChannel.send({embeds: [embed]});
 
@@ -74,7 +72,7 @@ client.on('interactionCreate', async (interaction) => {
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemini reddetti`).setColor("GREEN")
             logChannel.send({embeds: [embed]});
         } else if (interaction.customId === "destek-oluştur") {
-            functions.ticketCreate(interaction);
+            await functions.ticketCreate(interaction);
         }
     }
 
