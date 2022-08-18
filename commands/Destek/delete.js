@@ -25,7 +25,11 @@ module.exports = {
 
         const ticketMember = message.guild.members.cache.get(message.channel.name.split("talep-").join(""));
 
-        let category = message.guild.channels.cache.find(cha => cha.name === "Talepler" && cha.type === "GUILD_CATEGORY");
+        // checks ticket system is correct
+        await functions.ticketSystemCreate(message);
+
+        let category = message.guild.channels.cache.find(cha => cha.name === config.ticketsCategoryName && cha.type === "GUILD_CATEGORY");
+        let closedCategory = message.guild.channels.cache.find(cha => cha.name === config.ticketsClosedCategoryName && cha.type === "GUILD_CATEGORY");
 
         try {
 
@@ -34,7 +38,7 @@ module.exports = {
                 deny: 'VIEW_CHANNEL',
             }])
 
-            await message.channel.setParent(message.guild.channels.cache.find(cha => cha.name === "Kapalı Talepler" && cha.type === "GUILD_CATEGORY"));
+            await message.channel.setParent(closedCategory);
             message.channel.setName(`kapalı-${message.channel.name.split("talep-").join("")}`);
 
             message.channel.send({content: `Bu destek talebi <@${message.author.id}> tarafından silinmiştir.`});
