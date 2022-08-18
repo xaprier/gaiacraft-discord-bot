@@ -1,5 +1,6 @@
 const {Message, Client} = require("discord.js");
 const functions = require("../Utils/funcs");
+const config = require("../../config.json");
 
 module.exports = {
     name: 'ekle',
@@ -12,8 +13,10 @@ module.exports = {
      */
     run: async (client, message, args) => {
         let member = await functions.checks(message, args);
+        // checking ticket system is correct
+        await functions.ticketSystemCreate(message);
 
-        let ticketCategory = message.guild.channels.cache.find(cha => cha.name === 'Talepler' && cha.type === "GUILD_CATEGORY");
+        let ticketCategory = message.guild.channels.cache.find(cha => cha.name === config.ticketsCategoryName && cha.type === "GUILD_CATEGORY");
         try {
             ticketCategory.permissionOverwrites.edit(message.guild.roles.everyone, {VIEW_CHANNEL: false});
             await message.channel.permissionOverwrites.edit(message.guild.roles.everyone, {VIEW_CHANNEL: false});
