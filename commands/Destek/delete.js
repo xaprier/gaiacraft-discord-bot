@@ -28,7 +28,6 @@ module.exports = {
         let category = message.guild.channels.cache.find(cha => cha.name === "Talepler" && cha.type === "GUILD_CATEGORY");
 
         try {
-            category.permissionOverwrites.edit(ticketMember, {VIEW_CHANNEL: false});
 
             await message.channel.permissionOverwrites.set([{
                 id: message.guild.roles.everyone,
@@ -39,6 +38,9 @@ module.exports = {
             message.channel.setName(`kapalı-${message.channel.name.split("talep-").join("")}`);
 
             message.channel.send({content: `Bu destek talebi <@${message.author.id}> tarafından silinmiştir.`});
+
+            if (ticketMember)
+                category.permissionOverwrites.edit(ticketMember, {VIEW_CHANNEL: false});
         } catch (e) {
             console.log(e);
         }
