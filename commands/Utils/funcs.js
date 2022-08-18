@@ -1,4 +1,5 @@
 const {MessageEmbed, MessageActionRow, MessageButton} = require("discord.js");
+const replaceJSONProperty = require('replace-json-property');
 const config = require("../../config.json");
 exports.checks = async function (msg, arg) {
     if (!msg.channel.name.includes(`talep-`)) {
@@ -25,7 +26,9 @@ exports.checks = async function (msg, arg) {
 exports.deleteMsg = async function (msg1, msg2) {
     setTimeout(() => {
         try {
-            msg1.delete();
+            if (msg1) {
+                msg1.delete();
+            }
             if (msg2) {
                 msg2.delete();
             }
@@ -53,39 +56,15 @@ exports.ticketCreate = async (interaction) => {
         setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
         return;
     }
+    this.ticketSystemCreate(interaction);
+    let findCategory = interaction.guild.channels.cache.find(c => c.name === config.ticketsCategoryName && c.type === "GUILD_CATEGORY");
 
-    let findCategory = interaction.guild.channels.cache.find(c => c.name === "Talepler" && c.type === "GUILD_CATEGORY");
-    if (!findCategory) {
-        try {
-            findCategory = interaction.guild.channels.create("Talepler", {
-                type: "GUILD_CATEGORY",
-                permissionOverwrites: [
-                    {
-                        id: interaction.member.id,
-                        allow: ['VIEW_CHANNEL'],
-                    },
-                    {
-                        id: interaction.guild.roles.everyone,
-                        deny: ['VIEW_CHANNEL'],
-                    },
-                    {
-                        // destek yetkilisi
-                        id: `${config.ticketAttendant}`,
-                        allow: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'ADD_REACTIONS', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY'],
-                    },
-                ]
-            })
-        } catch (e) {
-            console.log(e);
-        }
-    } else {
-        try {
-            await findCategory.permissionOverwrites.edit(interaction.member, {
-                VIEW_CHANNEL: true,
-            })
-        } catch (e) {
-            console.log(e);
-        }
+    try {
+        await findCategory.permissionOverwrites.edit(interaction.member, {
+            VIEW_CHANNEL: true,
+        })
+    } catch (e) {
+        console.log(e);
     }
 
     let cha;
@@ -154,6 +133,7 @@ exports.ticketCreate = async (interaction) => {
             iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
         });
 
+
     try {
         await cha.send({embeds: [embed], components: [buttons]});
         const msg = await interaction.reply({content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${cha.id}> tıklayınız.`});
@@ -192,4 +172,97 @@ exports.closeCollector = async (interaction) => {
             .setStyle("DANGER")
     )
     interaction.reply({embeds: [embed], components: [buttons]});
+}
+
+exports.ticketSystemCreate = async (interaction) => {
+    let embed = new MessageEmbed()
+        .setFooter({
+            text: `Developed by xaprier`,
+            iconURL: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
+        }).setTimestamp().setAuthor({
+            name: `• Log`,
+            iconURL: interaction.guild.iconURL({dynamic: true})
+        }).setColor("ORANGE");
+
+    let ticketsCategory = interaction.guild.channels.cache.find(cha => cha.name === config.ticketsCategoryName && cha.type === "GUILD_CATEGORY");
+
+    let closedCategory = interaction.guild.channels.cache.find(cha => cha.name === config.ticketsClosedCategoryName && cha.type === "GUILD_CATEGORY");
+
+    let ticketAttendantRole = interaction.guild.roles.cache.find(r => r.id === config.ticketAttendant);
+
+    let ticketBanRole = interaction.guild.roles.cache.find(r => r.id === config.ticketBanRole);
+
+    if (!ticketsCategory) {
+        try {
+            await interaction.guild.channels.create(config.ticketsCategoryName, {
+                type: "GUILD_CATEGORY",
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.roles.everyone,
+                        deny: ['VIEW_CHANNEL'],
+                    },
+                    {
+                        // destek yetkilisi
+                        id: `${config.ticketAttendant}`,
+                        allow: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'ADD_REACTIONS', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY'],
+                    },
+                ]
+            });
+            embed.setDescription(`${config.ticketsCategoryName} bulunamadığından yeni oluşturuldu.`)
+            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    if (!closedCategory) {
+        try {
+            await interaction.guild.channels.create(config.ticketsClosedCategoryName, {
+                type: "GUILD_CATEGORY",
+                permissionOverwrites: [
+                    {
+                        id: interaction.guild.roles.everyone,
+                        deny: ['VIEW_CHANNEL'],
+                    },
+                    {
+                        // destek yetkilisi
+                        id: `${config.ticketAttendant}`,
+                        allow: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'ADD_REACTIONS', 'EMBED_LINKS', 'ATTACH_FILES', 'READ_MESSAGE_HISTORY'],
+                    },
+                ]
+            });
+            embed.setDescription(`${config.ticketsClosedCategoryName} bulunamadığından yeni oluşturuldu.`)
+            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    if (!ticketAttendantRole) {
+        try {
+            let role = await interaction.guild.roles.create({
+                name: `Destek Yetkilisi`,
+                color: `BLUE`
+            })
+            embed.setDescription(`${config.ticketAttendant} ID ile Destek Yetkilisi bulunamadığından yeni oluşturuldu. Yeni rol <@&${role.id}>`);
+            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+            replaceJSONProperty.replace(`${__dirname}/../../config.json`, `ticketAttendant`, role.id);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    if (!ticketBanRole) {
+        try {
+            let role = await interaction.guild.roles.create({
+                name: `Destek Yasağı`,
+                color: `RED`
+            })
+            embed.setDescription(`${config.ticketBanRole} ID ile Destek Yasağı bulunamadığından yeni oluşturuldu. Yeni rol <@&${role.id}>`);
+            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+            replaceJSONProperty.replace(`${__dirname}/../../config.json`, `ticketBanRole`, role.id);
+        } catch (e) {
+            console.log(e);
+        }
+    }
 }
