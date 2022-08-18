@@ -8,9 +8,9 @@
 ## Installing
 - You have to have at least NodeJS V16.9.0(for DiscordJS13) or later and npm(i recommend, or you can use yarn etc.)
 - Modules to be downloaded in package.json, just run
-``sh
+```sh
 npm install
-``
+```
 
 # Features
 ## Embed Messages
