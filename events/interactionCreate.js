@@ -39,17 +39,27 @@ client.on('interactionCreate', async (interaction) => {
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemini onayladı`).setColor("GREEN")
             logChannel.send({embeds: [embed]});
 
-            interaction.guild.channels.cache.find(c => c.name === "Talepler" && c.type === "GUILD_CATEGORY").permissionOverwrites.edit(interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")), {VIEW_CHANNEL: false});
+            await functions.ticketSystemCreate(interaction);
 
-            interaction.channel.permissionOverwrites.set([{
-                id: interaction.guild.roles.everyone,
-                deny: 'VIEW_CHANNEL',
-            }]);
+            let ticketsCategory = interaction.guild.channels.cache.find(cha => cha.name === config.ticketsCategoryName && cha.type === "GUILD_CATEGORY");
+            let closedCategory = interaction.guild.channels.cache.find(cha => cha.name === config.ticketsClosedCategoryName && cha.type === "GUILD_CATEGORY");
 
-            interaction.channel.setParent(interaction.guild.channels.cache.find(cha => cha.name === "Kapalı Talepler" && cha.type === "GUILD_CATEGORY"));
-            interaction.channel.setName(`kapalı-${interaction.channel.name.split("talep-").join("")}`);
+            try {
+                await ticketsCategory.permissionOverwrites.edit(interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")), {VIEW_CHANNEL: false});
 
-            interaction.reply({content: `Bu destek talebi <@${interaction.member.id}> tarafından kapatılmıştır.`});
+                await interaction.channel.permissionOverwrites.set([{
+                    id: interaction.guild.roles.everyone,
+                    deny: 'VIEW_CHANNEL',
+                }]);
+
+                await interaction.channel.setParent(closedCategory)
+                await interaction.channel.setName(`kapalı-${interaction.channel.name.split("talep-").join("")}`);
+
+                await interaction.reply({content: `Bu destek talebi <@${interaction.member.id}> tarafından kapatılmıştır.`});
+            } catch (e) {
+                console.log(e);
+            }
+
         } else if (interaction.customId === "destek-reddet") {
             if (interaction.member.id !== interaction.channel.name.split("talep-").join("")) {
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`});
@@ -72,6 +82,9 @@ client.on('interactionCreate', async (interaction) => {
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemini reddetti`).setColor("GREEN")
             logChannel.send({embeds: [embed]});
         } else if (interaction.customId === "destek-oluştur") {
+            // controlling ticket system
+            await functions.ticketSystemCreate(interaction);
+
             await functions.ticketCreate(interaction);
         }
     }
