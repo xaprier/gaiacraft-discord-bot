@@ -40,5 +40,6 @@ npm install
 - adduser.js for ticket owner can add another user to ticket with permission handling.
 - removeuser.js for ticket owner can remove an added user from ticket with permission handling.
 - A button-click-ticket system added to the bot, both of them is working.
+- If ticketAttendant or Administrator try to click button-close-ticket bot is going to send an information to channel of ticket to remind him to close ticket. And if ticketAttendant or Administrator confirm it, ticket is going to close.
 - Creating a message and sending to ticketChannel command in ./commands/Utils/ticketMessage.js
 - Handler of button-clicking and more in ./events/interactionCreate.js
