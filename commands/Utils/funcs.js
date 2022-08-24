@@ -5,20 +5,20 @@ exports.checks = async function (msg, arg) {
     if (!msg.channel.name.includes(`talep-`)) {
         const sendMsg = await msg.reply({content: 'Komutu destek talebinizde uygulayınız.'});
         await this.deleteMsg(sendMsg, msg);
-        return;
+        return 1;
     }
 
     if (!msg.channel.name.includes(`talep-${msg.author.id}`)) {
         const sendMsg = await msg.reply({content: 'Komutu sadece destek talebinin sahibi kullanabilir.'});
         await this.deleteMsg(sendMsg, msg);
-        return;
+        return 1;
     }
 
     let arg3 = msg.mentions.members.first() || msg.guild.members.cache.get(arg[0]) || msg.guild.members.cache.find(x => x.user.username === arg.slice(0).join(' ') || x.user.username === arg[0] || x.user.id === arg.slice(0).join(' '));
 
     if (!arg3) {
         msg.channel.send({content: `Belirttiğiniz üye sunucuda bulunamadı. Lütfen geçerli ID, Kullanıcı Adı veya Etiket belirtin`});
-        return;
+        return 1;
     }
     return arg3;
 }
@@ -40,21 +40,18 @@ exports.deleteMsg = async function (msg1, msg2) {
 
 exports.ticketCreate = async (interaction) => {
     if (interaction.member.roles.cache.some(role => [config.ticketBanRole].includes(role.id))) {
-        const msg = await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}> destek taleplerinden yasaklandığınız için talep oluşturamazsınız.`});
-        setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
-        return;
+        await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}> destek taleplerinden yasaklandığınız için talep oluşturamazsınız.`, ephemeral: true});
+        return 1;
     }
 
     if (interaction.member.roles.cache.some(r => [`${config.ticketAttendant}`].includes(r.id))) {
-        const msg = await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, destek yetkilisi destek talebi oluşturamaz!`});
-        setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
-        return;
+        await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, destek yetkilisi destek talebi oluşturamaz!`, ephemeral: true});
+        return 1;
     }
 
     if (interaction.guild.channels.cache.find(c => c.name === `talep-${interaction.member.id}`)) {
-        const msg = await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, zaten açık bir destek talebiniz var! Bir sorun olduğunu düşünüyorsanız yetkiliyle iletişime geçiniz.`});
-        setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
-        return;
+        await interaction.reply({content: `<@${interaction.toString().startsWith(config.prefix) ? interaction.author.id : interaction.member.id}>, zaten açık bir destek talebiniz var! Bir sorun olduğunu düşünüyorsanız yetkiliyle iletişime geçiniz.`, ephemeral: true});
+        return 1;
     }
     this.ticketSystemCreate(interaction);
     let findCategory = interaction.guild.channels.cache.find(c => c.name === config.ticketsCategoryName && c.type === "GUILD_CATEGORY");
@@ -136,8 +133,7 @@ exports.ticketCreate = async (interaction) => {
 
     try {
         await cha.send({embeds: [embed], components: [buttons]});
-        const msg = await interaction.reply({content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${cha.id}> tıklayınız.`});
-        setTimeout(() => interaction.toString().startsWith(config.prefix) ? msg.delete().then(interaction.delete()) : interaction.deleteReply(), 5000);
+        await interaction.reply({content: `<@${interaction.member.id}>, başarıyla bilet oluşturdunuz, kanala gitmek için <#${cha.id}> tıklayınız.`, ephemeral: true});
     } catch (e) {
         console.log(e);
     }
@@ -171,7 +167,7 @@ exports.closeCollector = async (interaction) => {
             .setLabel("Reddet")
             .setStyle("DANGER")
     )
-    interaction.reply({embeds: [embed], components: [buttons]});
+    interaction.reply({embeds: [embed], components: [buttons], ephemeral: true});
 }
 
 exports.ticketSystemCreate = async (interaction) => {
