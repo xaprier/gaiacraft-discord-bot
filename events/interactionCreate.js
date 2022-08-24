@@ -7,7 +7,6 @@ const {MessageEmbed, MessageActionRow, MessageButton} = require("discord.js");
 
 client.on('interactionCreate', async (interaction) => {
     if (interaction.isButton()) {
-
         const member = interaction.guild.members.cache.get(interaction.user.id);
 
         const embed = new MessageEmbed()
@@ -30,7 +29,7 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true});
                 return;
             }
-            embed.setDescription(`${interaction.member} destek talebini kapatma işlemi başlattı`).setColor("GREEN")
+            embed.setDescription(`${interaction.member} destek talebini kapatma işlemi başlattı`).setColor("GREEN").author.name = `• Destek`;
             if (logChannel)
                 logChannel.send({embeds: [embed]});
             else
@@ -50,7 +49,7 @@ client.on('interactionCreate', async (interaction) => {
                         .setLabel("Reddet")
                         .setStyle("DANGER")
                 );
-                await interaction.channel.send({ embeds: [embed], components: [buttons] });
+                await interaction.reply({ embeds: [embed], components: [buttons] });
                 return;
             }
 
@@ -66,7 +65,7 @@ client.on('interactionCreate', async (interaction) => {
                 return;
             }
 
-            embed.setDescription(`${interaction.member} destek talebini kapatma işlemini onayladı`).setColor("GREEN")
+            embed.setDescription(`${interaction.member}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini onayladı`).setColor("GREEN")
             if (logChannel)
                 logChannel.send({embeds: [embed]});
 
@@ -92,7 +91,7 @@ client.on('interactionCreate', async (interaction) => {
             }
 
         } else if (interaction.customId === "destek-reddet") {
-            if (interaction.member.id !== interaction.channel.name.split("talep-").join("")) {
+            if (interaction.member.id !== interaction.channel.name.split("talep-").join("")  && (!member.roles.cache.some(r => [config.ticketAttendant].includes(r.id)) && !member.permissions.has("ADMINISTRATOR"))) {
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true});
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı`).setColor("RED");
                 if (logChannel)
@@ -105,15 +104,14 @@ client.on('interactionCreate', async (interaction) => {
             const embed2 = new MessageEmbed()
                 .setTimestamp()
                 .setColor("ORANGE")
-                .setAuthor({name: `| Destek`, iconURL: interaction.member.displayAvatarURL({dynamic: true})})
+                .setAuthor({name: `• Destek`, iconURL: interaction.member.displayAvatarURL({dynamic: true})})
                 .setDescription("Kapatma iptal edildi")
                 .setFooter({
                     text: 'Developed by xaprier',
                     url: interaction.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true}) || null
                 });
-
             interaction.reply({embeds: [embed2], ephemeral: true});
-            embed.setDescription(`${interaction.member} destek talebini kapatma işlemini reddetti`).setColor("GREEN")
+            embed.setDescription(`${interaction.member}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini reddetti`).setColor("GREEN")
             if (logChannel)
                 logChannel.send({embeds: [embed]});
             else
