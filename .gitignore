@@ -1,2 +1,6 @@
-node_modules
+# npm package management
 package-lock.json
+
+# directories
+node_modules
+.idea
