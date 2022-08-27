@@ -17,7 +17,7 @@ exports.checks = async function (msg, arg) {
     let arg3 = msg.mentions.members.first() || msg.guild.members.cache.get(arg[0]) || msg.guild.members.cache.find(x => x.user.username === arg.slice(0).join(' ') || x.user.username === arg[0] || x.user.id === arg.slice(0).join(' '));
 
     if (!arg3) {
-        msg.channel.send({content: `Belirttiğiniz üye sunucuda bulunamadı. Lütfen geçerli ID, Kullanıcı Adı veya Etiket belirtin`});
+        await msg.channel.send({content: `Belirttiğiniz üye sunucuda bulunamadı. Lütfen geçerli ID, Kullanıcı Adı veya Etiket belirtin`});
         return 1;
     }
     return arg3;
@@ -205,7 +205,7 @@ exports.ticketSystemCreate = async (interaction) => {
                 ]
             });
             embed.setDescription(`${config.ticketsCategoryName} bulunamadığından yeni oluşturuldu.`)
-            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+            await interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
         } catch (e) {
             console.log(e);
         }
@@ -228,7 +228,7 @@ exports.ticketSystemCreate = async (interaction) => {
                 ]
             });
             embed.setDescription(`${config.ticketsClosedCategoryName} bulunamadığından yeni oluşturuldu.`)
-            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+            await interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
         } catch (e) {
             console.log(e);
         }
@@ -241,7 +241,7 @@ exports.ticketSystemCreate = async (interaction) => {
                 color: `BLUE`
             })
             embed.setDescription(`${config.ticketAttendant} ID ile Destek Yetkilisi bulunamadığından yeni oluşturuldu. Yeni rol <@&${role.id}>`);
-            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+            await interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
             replaceJSONProperty.replace(`${__dirname}/../../config.json`, `ticketAttendant`, role.id);
         } catch (e) {
             console.log(e);
@@ -255,7 +255,7 @@ exports.ticketSystemCreate = async (interaction) => {
                 color: `RED`
             })
             embed.setDescription(`${config.ticketBanRole} ID ile Destek Yasağı bulunamadığından yeni oluşturuldu. Yeni rol <@&${role.id}>`);
-            interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
+            await interaction.guild.channels.cache.get(config.logChannel).send({embeds: [embed]});
             replaceJSONProperty.replace(`${__dirname}/../../config.json`, `ticketBanRole`, role.id);
         } catch (e) {
             console.log(e);

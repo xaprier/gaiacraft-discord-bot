@@ -25,7 +25,7 @@ module.exports = {
                     .setLabel("📩 Talep Oluştur")
                     .setStyle("SUCCESS")
             );
-            ticketChannel.send({embeds: [embed], components: [buttons]});
+            await ticketChannel.send({embeds: [embed], components: [buttons]});
         } else {
             message.reply({content: `Bunun için yeterli izniniz yok. Talep açmak için <#${config.ticketChannel}>`}).then(msg => {
                 setTimeout(() => {
