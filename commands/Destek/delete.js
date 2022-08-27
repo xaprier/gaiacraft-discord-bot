@@ -39,12 +39,12 @@ module.exports = {
             }])
 
             await message.channel.setParent(closedCategory);
-            message.channel.setName(`kapalı-${message.channel.name.split("talep-").join("")}`);
+            await message.channel.setName(`kapalı-${message.channel.name.split("talep-").join("")}`);
 
-            message.channel.send({content: `Bu destek talebi <@${message.author.id}> tarafından silinmiştir.`});
+            await message.channel.send({content: `Bu destek talebi <@${message.author.id}> tarafından silinmiştir.`});
 
             if (ticketMember)
-                category.permissionOverwrites.edit(ticketMember, {VIEW_CHANNEL: false});
+                await category.permissionOverwrites.edit(ticketMember, {VIEW_CHANNEL: false});
         } catch (e) {
             console.log(e);
         }

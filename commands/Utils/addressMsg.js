@@ -29,14 +29,14 @@ module.exports = {
                 })
                 .setTimestamp();
             try {
-                addressChannel.send({embeds: [embed]});
+                await addressChannel.send({embeds: [embed]});
                 await message.delete();
             } catch (e) {
                 console.log(e);
             }
 
         } else {
-            message.channel.send({content: `Adreslerimiz <#${config.addressChannel.id}> kanalındadır.`}).then(cha => {
+            await message.channel.send({content: `Adreslerimiz <#${config.addressChannel.id}> kanalındadır.`}).then(cha => {
                 setTimeout(() => {
                     cha.delete();
                     message.delete();

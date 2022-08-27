@@ -95,7 +95,7 @@ module.exports = {
 
         } else {
             embed.setDescription(`Komutu <#${config.onlyCommands}> kanalında kullanınız`).author.name = `• Hata`;
-            message.channel.send({embeds: [embed]}).then(msg => {
+            await message.channel.send({embeds: [embed]}).then(msg => {
                 setTimeout(() => {
                     msg.delete();
                     message.delete();
