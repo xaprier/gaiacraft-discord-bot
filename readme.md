@@ -13,6 +13,15 @@ npm install
 ```
 
 # Features
+## Temporary Voice Channels
+
+- There is a temporary voice channel system for users to create their own voice channels.
+- When the user joins a channel which matching the id's on the config.json, the handle will create a temporary voice channel with user limit if user joins a user limit channel.
+- When the channel owner leaves voice channel then handle will delete that voice channel.
+- There is no permission handling on this, permissions of the channel will be the parent category permissions.
+- You can find the handle file in ./events/voiceStateUpdate.js
+- The handle record all(Temporary Voice Channels or another) the voice channel join/lefts to channel with matching id's logChannel in config.json
+
 ## Embed Messages
 
 - Includes EmbedMessage command for Addresses, Rules, Information, Penalties(Punishments) and Policy.
