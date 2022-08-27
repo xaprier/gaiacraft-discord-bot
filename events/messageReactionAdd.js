@@ -16,7 +16,7 @@ client.on("messageReactionAdd", async (interaction, ruser) => {
             iconURL: interaction.message.guild.members.cache.get(config.developer).displayAvatarURL({dynamic: true})
         }).setColor("ORANGE").setTimestamp();
 
-        interaction.message.guild.channels.cache.get(`${config.logChannel}`).send({embeds: [embed]});
+        await interaction.message.guild.channels.cache.get(`${config.logChannel}`).send({embeds: [embed]});
 
         await interaction.message.reactions.removeAll();
         await interaction.message.react('✅');
