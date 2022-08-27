@@ -23,10 +23,10 @@ client.on("messageCreate", async (message) => {
 
     if (!command) {
         embed.setDescription(`${message.author.tag} oyuncusu **${cmd}** komutunu gerçekleştiremedi`).setColor("RED");
-        message.guild.channels.cache.get(`${config.logChannel}`).send({embeds: [embed]});
+        await message.guild.channels.cache.get(`${config.logChannel}`).send({embeds: [embed]});
         return;
     }
     await command.run(client, message, args);
     embed.setDescription(`${message.author.tag} oyuncusu **${cmd}** komutunu gerçekleştirdi`).setColor("GREEN");
-    message.guild.channels.cache.get(`${config.logChannel}`).send({embeds: [embed]});
+    await message.guild.channels.cache.get(`${config.logChannel}`).send({embeds: [embed]});
 });

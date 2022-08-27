@@ -23,7 +23,7 @@ client.on('interactionCreate', async (interaction) => {
             if (member.id !== interaction.channel.name.split("talep-").join("") && (!member.roles.cache.some(r => [config.ticketAttendant].includes(r.id)) && !member.permissions.has("ADMINISTRATOR"))) {
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatmaya çalıştı`).setColor("RED");
                 if (logChannel)
-                    logChannel.send({embeds: [embed]});
+                    await logChannel.send({embeds: [embed]});
                 else
                     console.log(`${config.logChannel} ID'li log kanalı bulunamadı`);
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true});
@@ -31,7 +31,7 @@ client.on('interactionCreate', async (interaction) => {
             }
             embed.setDescription(`${interaction.member} destek talebini kapatma işlemi başlattı`).setColor("GREEN").author.name = `• Destek`;
             if (logChannel)
-                logChannel.send({embeds: [embed]});
+                await logChannel.send({embeds: [embed]});
             else
                 console.log(`${config.logChannel} ID'li log kanalı bulunamadı`);
 
@@ -59,7 +59,7 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true});
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı`).setColor("RED");
                 if (logChannel)
-                    logChannel.send({embeds: [embed]});
+                    await logChannel.send({embeds: [embed]});
                 else
                     console.log(`${config.logChannel} ID'li log kanalı bulunamadı`);
                 return;
@@ -67,7 +67,7 @@ client.on('interactionCreate', async (interaction) => {
 
             embed.setDescription(`${interaction.member}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini onayladı`).setColor("GREEN")
             if (logChannel)
-                logChannel.send({embeds: [embed]});
+                await logChannel.send({embeds: [embed]});
 
             await functions.ticketSystemCreate(interaction);
 
@@ -95,7 +95,7 @@ client.on('interactionCreate', async (interaction) => {
                 interaction.reply({content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true});
                 embed.setDescription(`${interaction.member.user.tag}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı`).setColor("RED");
                 if (logChannel)
-                    logChannel.send({embeds: [embed]});
+                    await logChannel.send({embeds: [embed]});
                 else
                     console.log(`${config.logChannel} ID'li log kanalı bulunamadı`);
                 return;
@@ -113,7 +113,7 @@ client.on('interactionCreate', async (interaction) => {
             interaction.reply({embeds: [embed2], ephemeral: true});
             embed.setDescription(`${interaction.member}, ${interaction.guild.members.cache.get(interaction.channel.name.split("talep-").join("")).user.tag} üyesinin destek talebini kapatma işlemini reddetti`).setColor("GREEN")
             if (logChannel)
-                logChannel.send({embeds: [embed]});
+                await logChannel.send({embeds: [embed]});
             else
                 console.log(`${config.logChannel} ID'li log kanalı bulunamadı`);
         } else if (interaction.customId === "destek-oluştur") {
