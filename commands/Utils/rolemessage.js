@@ -20,8 +20,8 @@ module.exports = {
 				} )
 				.setTimestamp();
 			const msg = await recordChannel.send( {embeds: [embed]} );
-			message.delete();
-			msg.react( '✅' );
+			await message.delete();
+			await msg.react( '✅' );
 		}
 	},
 };
