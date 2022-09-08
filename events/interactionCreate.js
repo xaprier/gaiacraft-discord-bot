@@ -21,7 +21,7 @@ client.on( 'interactionCreate', async ( interaction ) => {
 
 		if ( interaction?.customId === "destek-kapat" ) {
 			if ( member.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
-				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatmaya çalıştı` ).setColor( "RED" );
+				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) )?.user.tag} üyesinin destek talebini kapatmaya çalıştı` ).setColor( "RED" );
 				if ( logChannel )
 					await logChannel?.send( {embeds: [embed]} );
 				else
@@ -57,7 +57,7 @@ client.on( 'interactionCreate', async ( interaction ) => {
 		} else if ( interaction?.customId === "destek-onayla" ) {
 			if ( member.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
 				await interaction?.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
-				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı` ).setColor( "RED" );
+				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) )?.user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı` ).setColor( "RED" );
 				if ( logChannel )
 					await logChannel?.send( {embeds: [embed]} );
 				else
@@ -93,7 +93,7 @@ client.on( 'interactionCreate', async ( interaction ) => {
 		} else if ( interaction?.customId === "destek-reddet" ) {
 			if ( interaction.member?.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
 				await interaction?.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
-				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı` ).setColor( "RED" );
+				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) )?.user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı` ).setColor( "RED" );
 				if ( logChannel )
 					await logChannel?.send( {embeds: [embed]} );
 				else
