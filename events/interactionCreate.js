@@ -19,19 +19,19 @@ client.on( 'interactionCreate', async ( interaction ) => {
 
 		const logChannel = interaction.guild.channels.cache.get( config.logChannel );
 
-		if ( interaction?.customId === "destek-kapat" ) {
+		if ( interaction.customId === "destek-kapat" ) {
 			if ( member.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
-				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) )?.user.tag} üyesinin destek talebini kapatmaya çalıştı` ).setColor( "RED" );
+				embed.setDescription( `${interaction.member.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatmaya çalıştı` ).setColor( "RED" );
 				if ( logChannel )
-					await logChannel?.send( {embeds: [embed]} );
+					await logChannel.send( {embeds: [embed]} );
 				else
 					console.log( `${config.logChannel} ID'li log kanalı bulunamadı` );
-				await interaction?.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
+				interaction.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
 				return;
 			}
 			embed.setDescription( `${interaction.member} destek talebini kapatma işlemi başlattı` ).setColor( "GREEN" ).author.name = `• Destek`;
 			if ( logChannel )
-				await logChannel?.send( {embeds: [embed]} );
+				await logChannel.send( {embeds: [embed]} );
 			else
 				console.log( `${config.logChannel} ID'li log kanalı bulunamadı` );
 
@@ -49,17 +49,17 @@ client.on( 'interactionCreate', async ( interaction ) => {
 						.setLabel( "Reddet" )
 						.setStyle( "DANGER" )
 				);
-				await interaction?.reply( {embeds: [embed], components: [buttons]} );
+				await interaction.reply( {embeds: [embed], components: [buttons]} );
 				return;
 			}
 
 			await functions.closeCollector( interaction );
-		} else if ( interaction?.customId === "destek-onayla" ) {
+		} else if ( interaction.customId === "destek-onayla" ) {
 			if ( member.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
-				await interaction?.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
-				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) )?.user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı` ).setColor( "RED" );
+				interaction.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
+				embed.setDescription( `${interaction.member.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini onaylamaya çalıştı` ).setColor( "RED" );
 				if ( logChannel )
-					await logChannel?.send( {embeds: [embed]} );
+					await logChannel.send( {embeds: [embed]} );
 				else
 					console.log( `${config.logChannel} ID'li log kanalı bulunamadı` );
 				return;
@@ -67,7 +67,7 @@ client.on( 'interactionCreate', async ( interaction ) => {
 
 			embed.setDescription( `${interaction.member}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini onayladı` ).setColor( "GREEN" )
 			if ( logChannel )
-				await logChannel?.send( {embeds: [embed]} );
+				await logChannel.send( {embeds: [embed]} );
 
 			await functions.ticketSystemCreate( interaction );
 
@@ -75,27 +75,27 @@ client.on( 'interactionCreate', async ( interaction ) => {
 			let closedCategory = interaction.guild.channels.cache.find( cha => cha.name === config.ticketsClosedCategoryName && cha.type === "GUILD_CATEGORY" );
 
 			try {
-				await ticketsCategory?.permissionOverwrites.edit( interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ), {VIEW_CHANNEL: false} );
+				await ticketsCategory.permissionOverwrites.edit( interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ), {VIEW_CHANNEL: false} );
 
-				await interaction.channel?.permissionOverwrites.set( [{
+				await interaction.channel.permissionOverwrites.set( [{
 					id: interaction.guild.roles.everyone,
 					deny: 'VIEW_CHANNEL',
 				}] );
 
-				await interaction.channel?.setParent( closedCategory )
-				await interaction.channel?.setName( `kapalı-${interaction.channel.name.split( "talep-" ).join( "" )}` );
+				await interaction.channel.setParent( closedCategory )
+				await interaction.channel.setName( `kapalı-${interaction.channel.name.split( "talep-" ).join( "" )}` );
 
-				await interaction?.reply( {content: `Bu destek talebi <@${interaction.member?.id}> tarafından kapatılmıştır.`} );
+				await interaction.reply( {content: `Bu destek talebi <@${interaction.member.id}> tarafından kapatılmıştır.`} );
 			} catch ( e ) {
 				console.log( e );
 			}
 
-		} else if ( interaction?.customId === "destek-reddet" ) {
-			if ( interaction.member?.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
-				await interaction?.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
-				embed.setDescription( `${interaction.member?.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) )?.user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı` ).setColor( "RED" );
+		} else if ( interaction.customId === "destek-reddet" ) {
+			if ( interaction.member.id !== interaction.channel.name.split( "talep-" ).join( "" ) && (!member.roles.cache.some( r => [config.ticketAttendant].includes( r.id ) ) && !member.permissions.has( "ADMINISTRATOR" )) ) {
+				interaction.reply( {content: `Sadece talep sahibi, talebi kapatabilir`, ephemeral: true} );
+				embed.setDescription( `${interaction.member.user.tag}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini reddetmeye çalıştı` ).setColor( "RED" );
 				if ( logChannel )
-					await logChannel?.send( {embeds: [embed]} );
+					await logChannel.send( {embeds: [embed]} );
 				else
 					console.log( `${config.logChannel} ID'li log kanalı bulunamadı` );
 				return;
@@ -104,19 +104,19 @@ client.on( 'interactionCreate', async ( interaction ) => {
 			const embed2 = new MessageEmbed()
 				.setTimestamp()
 				.setColor( "ORANGE" )
-				.setAuthor( {name: `• Destek`, iconURL: interaction.member?.displayAvatarURL( {dynamic: true} )} )
+				.setAuthor( {name: `• Destek`, iconURL: interaction.member.displayAvatarURL( {dynamic: true} )} )
 				.setDescription( "Kapatma iptal edildi" )
 				.setFooter( {
 					text: 'Developed by xaprier',
 					url: interaction.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} ) || null
 				} );
-			await interaction?.reply( {embeds: [embed2], ephemeral: true} );
+			interaction.reply( {embeds: [embed2], ephemeral: true} );
 			embed.setDescription( `${interaction.member}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini reddetti` ).setColor( "GREEN" )
 			if ( logChannel )
-				await logChannel?.send( {embeds: [embed]} );
+				await logChannel.send( {embeds: [embed]} );
 			else
 				console.log( `${config.logChannel} ID'li log kanalı bulunamadı` );
-		} else if ( interaction?.customId === "destek-oluştur" ) {
+		} else if ( interaction.customId === "destek-oluştur" ) {
 			// controlling ticket system
 			await functions.ticketSystemCreate( interaction );
 
