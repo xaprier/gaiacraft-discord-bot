@@ -65,7 +65,7 @@ module.exports = {
 				)
 			];
 
-			const initMessage = await message.channel.send( {embeds: [embed], components: components( false )} );
+			const initMessage = await message.channel?.send( {embeds: [embed], components: components( false )} );
 
 			const filter = ( interaction ) => interaction.user.id === message.author.id;
 
@@ -89,7 +89,7 @@ module.exports = {
 							}
 						} )
 					).setColor( "ORANGE" ).setAuthor( {name: ``, iconURL: message.guild.iconURL( {dynamic: true} )} );
-				interaction.update( {embeds: [categoryEmbed]} );
+				interaction?.update( {embeds: [categoryEmbed]} );
 			} );
 
 			collector.on( `end`, () => {
@@ -98,10 +98,10 @@ module.exports = {
 
 		} else {
 			embed.setDescription( `Komutu <#${config.onlyCommands}> kanalında kullanınız` ).author.name = `• Hata`;
-			await message.channel.send( {embeds: [embed]} ).then( msg => {
+			await message.channel?.send( {embeds: [embed]} ).then( msg => {
 				setTimeout( () => {
-					msg.delete();
-					message.delete();
+					msg?.delete();
+					message?.delete();
 				}, 5000 );
 			} )
 		}
