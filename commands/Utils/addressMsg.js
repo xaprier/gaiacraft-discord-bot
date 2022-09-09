@@ -29,17 +29,17 @@ module.exports = {
 				} )
 				.setTimestamp();
 			try {
-				await addressChannel.send( {embeds: [embed]} );
-				await message.delete();
+				await addressChannel?.send( {embeds: [embed]} );
+				await message?.delete();
 			} catch ( e ) {
 				console.log( e );
 			}
 
 		} else {
-			await message.channel.send( {content: `Adreslerimiz <#${config.addressChannel.id}> kanalındadır.`} ).then( cha => {
+			await message.channel?.send( {content: `Adreslerimiz <#${config.addressChannel.id}> kanalındadır.`} ).then( cha => {
 				setTimeout( () => {
-					cha.delete();
-					message.delete();
+					cha?.delete();
+					message?.delete();
 				}, 15000 );
 			} ).catch( ( e ) => console.log( e ) );
 		}
