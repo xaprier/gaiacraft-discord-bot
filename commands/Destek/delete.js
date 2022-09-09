@@ -17,7 +17,7 @@ module.exports = {
 			return;
 		}
 
-		if ( !message.member.roles.cache.some( role => [`${config.ticketAttendant}`].includes( role.id ) ) && !message.member.permissions.has( "ADMINISTRATOR" ) ) {
+		if ( !message.member.roles.cache.some( role => [`${config.ticketAttendant}`].includes( role?.id ) ) && !message.member.permissions.has( "ADMINISTRATOR" ) ) {
 			const sendMsg = await message.reply( {content: 'Desteği sadece destek yetkilisi silebilir.'} );
 			await functions.deleteMsg( sendMsg, message );
 			return;
@@ -44,7 +44,7 @@ module.exports = {
 			await message.channel.send( {content: `Bu destek talebi <@${message.author.id}> tarafından silinmiştir.`} );
 
 			if ( ticketMember )
-				await category.permissionOverwrites.edit( ticketMember, {VIEW_CHANNEL: false} );
+				await category?.permissionOverwrites.edit( ticketMember, {VIEW_CHANNEL: false} );
 		} catch ( e ) {
 			console.log( e );
 		}
