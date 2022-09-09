@@ -18,10 +18,10 @@ module.exports = {
 
 		let ticketCategory = message.guild.channels.cache.find( cha => cha.name === config.ticketsCategoryName && cha.type === "GUILD_CATEGORY" );
 		try {
-			ticketCategory.permissionOverwrites.edit( message.guild.roles.everyone, {VIEW_CHANNEL: false} );
+			ticketCategory?.permissionOverwrites.edit( message.guild.roles.everyone, {VIEW_CHANNEL: false} );
 			await message.channel.permissionOverwrites.edit( message.guild.roles.everyone, {VIEW_CHANNEL: false} );
 			if ( member ) {
-				ticketCategory.permissionOverwrites.edit( member, {VIEW_CHANNEL: true} );
+				ticketCategory?.permissionOverwrites.edit( member, {VIEW_CHANNEL: true} );
 				await message.channel.permissionOverwrites.edit( member, {
 					VIEW_CHANNEL: true,
 					SEND_MESSAGES: true,
