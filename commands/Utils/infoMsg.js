@@ -20,7 +20,7 @@ module.exports = {
 				.setColor( "ORANGE" )
 				.setFooter( {
 					text: 'Developed by xaprier',
-					iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+					iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 				} )
 				.setTimestamp();
 			try {

@@ -20,7 +20,7 @@ module.exports = {
 		const commandChannel = message.guild.channels.cache.get( `${config.onlyCommands}` );
 		let embed = new MessageEmbed().setFooter( {
 			text: `Developed by XAPRIER`,
-			iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+			iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 		} ).setTimestamp().setAuthor( {
 			name: ``,
 			iconURL: message.guild.iconURL( {dynamic: true} )
