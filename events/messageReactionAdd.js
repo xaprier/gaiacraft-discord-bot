@@ -13,8 +13,8 @@ client.on( "messageReactionAdd", async ( interaction, ruser ) => {
 			iconURL: interaction.message.guild.iconURL( {dynamic: true} )
 		} ).setDescription( `${user.user.tag} oyuncusu tepki vererek kayıt oldu` ).setFooter( {
 			text: "Developed by xaprier",
-			iconURL: interaction.message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
-		} ).setColor( "ORANGE" ).setTimestamp();
+			iconURL: interaction.message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
+		} ).setColor( "ORANGE" ).setThumbnail( user.user?.displayAvatarURL( {dynamic: true} ) ).setTimestamp();
 
 		await interaction.message.guild.channels.cache.get( `${config.logChannel}` ).send( {embeds: [embed]} );
 

@@ -13,8 +13,9 @@ client.on( 'interactionCreate', async ( interaction ) => {
 			.setAuthor( {name: "• Log", iconURL: interaction.guild.iconURL( {dynamic: true} )} )
 			.setFooter( {
 				text: 'Developed by xaprier',
-				iconURL: interaction.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+				iconURL: interaction.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 			} )
+			.setThumbnail( interaction.user?.displayAvatarURL( {dynamic: true} ) )
 			.setTimestamp();
 
 		const logChannel = interaction.guild.channels.cache.get( config.logChannel );
@@ -108,7 +109,7 @@ client.on( 'interactionCreate', async ( interaction ) => {
 				.setDescription( "Kapatma iptal edildi" )
 				.setFooter( {
 					text: 'Developed by xaprier',
-					url: interaction.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} ) || null
+					url: interaction.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} ) || null
 				} );
 			await interaction?.reply( {embeds: [embed2], ephemeral: true} );
 			embed.setDescription( `${interaction.member}, ${interaction.guild.members.cache.get( interaction.channel.name.split( "talep-" ).join( "" ) ).user.tag} üyesinin destek talebini kapatma işlemini reddetti` ).setColor( "GREEN" )

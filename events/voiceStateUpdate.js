@@ -8,6 +8,7 @@ client.on( "voiceStateUpdate", async ( oldState, newState ) => {
 		.setAuthor( {name: '• Sesli Aktivitesi', iconURL: oldState.guild.iconURL({ dynamic: true })} )
 		.setColor( "ORANGE" )
 		.setDescription( "" )
+		.setThumbnail(oldState.member.user?.displayAvatarURL({dynamic: true}))
 		.setTimestamp()
 		.setFooter( {text: 'Developed by xaprier', iconURL: newState.member.displayAvatarURL( {dynamic: true} )} );
 	// if user's channel not the same as before
@@ -69,7 +70,7 @@ client.on( "voiceStateUpdate", async ( oldState, newState ) => {
 		}
 		embed.description += `\n\n**Ayrılınan Oda »** ${oldState.channel ? oldState.channel.name : 'Bilinmiyor'}\n**Katılınan Oda »** ${newState.channel ? newState.channel.name : 'Bilinmiyor'}\n**Kişi »** ${newState.member.user.tag}`
 		if ( logCha )
-			await logCha.send( {embeds: [embed]} );
+			await logCha?.send( {embeds: [embed]} );
 		else
 			console.log( `${config.logChannel} ID'li log kanalı bulunamadı` );
 	}
