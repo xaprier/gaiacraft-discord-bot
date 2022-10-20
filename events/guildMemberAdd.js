@@ -32,8 +32,8 @@ client.on( "guildMemberAdd", async ( interaction ) => {
 		} );
 
 	try {
-		await member.send( {embeds: [embed]} );
+		await member?.send( {embeds: [embed]} );
 	} catch ( e ) {
-		console.log( `${member} üyesine giriş mesajı gönderilemedi` );
+		console.log( `${member.user.tag} üyesine giriş mesajı gönderilemedi` );
 	}
 } )

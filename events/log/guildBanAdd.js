@@ -7,7 +7,7 @@ client.on( "guildBanAdd", async ( ban ) => {
 		limit: 1,
 		type: 22, // GUILD_BAN_ADD
 	} );
-	const deletionLog = fetchedLogs.entries.first();
+	const additionLog = fetchedLogs.entries.first();
 
 	if ( logCha ) {
 		const date = new Date();
@@ -23,7 +23,7 @@ client.on( "guildBanAdd", async ( ban ) => {
 				},
 				{
 					name: `Açıklamalar`,
-					value: `**\`${ban.user?.tag}\`**\n**\`${deletionLog.executor?.tag}\`**\n**\`${date.toDateString() + " " + date.getHours() + ":" + date.getMinutes()}\`**\n**\`${ban.user.id}\`**`,
+					value: `**\`${ban.user?.tag}\`**\n**\`${additionLog.executor?.tag}\`**\n**\`${date.toDateString() + " " + date.getHours() + ":" + date.getMinutes()}\`**\n**\`${ban.user.id}\`**`,
 					inline: true
 				}
 			)
