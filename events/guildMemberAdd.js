@@ -22,18 +22,18 @@ client.on( "guildMemberAdd", async ( interaction ) => {
 				value: `Kurallarımız ve Politikamız üye okumamış olsa bile okumuş kabul edilir ve ona göre davranılır. Lütfen okumadan geçmeyiniz`
 			},
 			{
-				name: "\0200b",
+				name: "\u200b",
 				value: `İyi oyunlar dileriz`
 			}
 		)
 		.setFooter( {
 			text: 'Developed by xaprier',
-			iconURL: interaction.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+			iconURL: interaction.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 		} );
 
 	try {
-		await member.send( {embeds: [embed]} );
+		await member?.send( {embeds: [embed]} );
 	} catch ( e ) {
-		console.log( `${member} üyesine giriş mesajı gönderilemedi` );
+		console.log( `${member.user.tag} üyesine giriş mesajı gönderilemedi` );
 	}
 } )
