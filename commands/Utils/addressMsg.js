@@ -25,21 +25,21 @@ module.exports = {
 				.setColor( "ORANGE" )
 				.setFooter( {
 					text: 'Developed by xaprier',
-					iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+					iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 				} )
 				.setTimestamp();
 			try {
-				await addressChannel.send( {embeds: [embed]} );
-				await message.delete();
+				await addressChannel?.send( {embeds: [embed]} );
+				await message?.delete();
 			} catch ( e ) {
 				console.log( e );
 			}
 
 		} else {
-			await message.channel.send( {content: `Adreslerimiz <#${config.addressChannel.id}> kanalındadır.`} ).then( cha => {
+			await message.channel?.send( {content: `Adreslerimiz <#${config.addressChannel.id}> kanalındadır.`} ).then( cha => {
 				setTimeout( () => {
-					cha.delete();
-					message.delete();
+					cha?.delete();
+					message?.delete();
 				}, 15000 );
 			} ).catch( ( e ) => console.log( e ) );
 		}

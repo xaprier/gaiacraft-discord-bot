@@ -16,12 +16,12 @@ module.exports = {
 				.setColor( "ORANGE" )
 				.setFooter( {
 					text: 'Developed by xaprier',
-					iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+					iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 				} )
 				.setTimestamp();
-			const msg = await recordChannel.send( {embeds: [embed]} );
-			await message.delete();
-			await msg.react( '✅' );
+			const msg = await recordChannel?.send( {embeds: [embed]} );
+			await message?.delete();
+			await msg?.react( '✅' );
 		}
 	},
 };

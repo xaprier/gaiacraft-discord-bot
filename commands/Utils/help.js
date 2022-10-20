@@ -20,7 +20,7 @@ module.exports = {
 		const commandChannel = message.guild.channels.cache.get( `${config.onlyCommands}` );
 		let embed = new MessageEmbed().setFooter( {
 			text: `Developed by XAPRIER`,
-			iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+			iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 		} ).setTimestamp().setAuthor( {
 			name: ``,
 			iconURL: message.guild.iconURL( {dynamic: true} )
@@ -65,7 +65,7 @@ module.exports = {
 				)
 			];
 
-			const initMessage = await message.channel.send( {embeds: [embed], components: components( false )} );
+			const initMessage = await message.channel?.send( {embeds: [embed], components: components( false )} );
 
 			const filter = ( interaction ) => interaction.user.id === message.author.id;
 
@@ -89,7 +89,7 @@ module.exports = {
 							}
 						} )
 					).setColor( "ORANGE" ).setAuthor( {name: ``, iconURL: message.guild.iconURL( {dynamic: true} )} );
-				interaction.update( {embeds: [categoryEmbed]} );
+				interaction?.update( {embeds: [categoryEmbed]} );
 			} );
 
 			collector.on( `end`, () => {
@@ -98,10 +98,10 @@ module.exports = {
 
 		} else {
 			embed.setDescription( `Komutu <#${config.onlyCommands}> kanalında kullanınız` ).author.name = `• Hata`;
-			await message.channel.send( {embeds: [embed]} ).then( msg => {
+			await message.channel?.send( {embeds: [embed]} ).then( msg => {
 				setTimeout( () => {
-					msg.delete();
-					message.delete();
+					msg?.delete();
+					message?.delete();
 				}, 5000 );
 			} )
 		}

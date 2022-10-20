@@ -19,7 +19,7 @@ module.exports = {
 			return;
 		}
 
-		if ( !message.channel.name.includes( `talep-${message.author.id}` ) && !message.member.roles.cache.some( role => [`${config.ticketAttendant}`].includes( role.id ) ) && !message.member.permissions.has( "ADMINISTRATOR" ) ) {
+		if ( !message.channel.name.includes( `talep-${message.author.id}` ) && !message.member.roles.cache.some( role => [`${config.ticketAttendant}`].includes( role?.id ) ) && !message.member.permissions.has( "ADMINISTRATOR" ) ) {
 			const sendMsg = await message.reply( {content: 'Komutu sadece destek talebinin sahibi veya yetkili kullanabilir.'} );
 			await functions.deleteMsg( sendMsg, message );
 			return;

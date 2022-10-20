@@ -15,7 +15,7 @@ module.exports = {
 				.setColor( "ORANGE" )
 				.setFooter( {
 					text: 'Developed by xaprier',
-					iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+					iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 				} )
 				.setDescription( `Destek talebi oluşturmak için butona tıklayınız` );
 			// noinspection JSCheckFunctionSignatures
@@ -25,12 +25,12 @@ module.exports = {
 					.setLabel( "📩 Talep Oluştur" )
 					.setStyle( "SUCCESS" )
 			);
-			await ticketChannel.send( {embeds: [embed], components: [buttons]} );
+			await ticketChannel?.send( {embeds: [embed], components: [buttons]} );
 		} else {
-			message.reply( {content: `Bunun için yeterli izniniz yok. Talep açmak için <#${config.ticketChannel}>`} ).then( msg => {
+			message?.reply( {content: `Bunun için yeterli izniniz yok. Talep açmak için <#${config.ticketChannel}>`} ).then( msg => {
 				setTimeout( () => {
-					msg.delete();
-					message.delete();
+					msg?.delete();
+					message?.delete();
 				}, 10000 );
 			} ).catch( ( e ) => console.log( e ) );
 		}

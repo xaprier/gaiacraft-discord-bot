@@ -32,12 +32,12 @@ module.exports = {
 				)
 				.setFooter( {
 					text: 'Developed by xaprier',
-					iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+					iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 				} )
 				.setColor( "ORANGE" )
 				.setTimestamp();
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -51,7 +51,7 @@ module.exports = {
 				}
 			).setDescription( `Lavacast tespit edildiğinde önce oyuncunun o alanda yaptıkları silinir, sonra aşağıdaki cezalar uygulanır. Yapılan LavaCast'in büyüklüğüne göre ağırlaştırılmış ceza verilebilir.` ).author.name = `Lavacast`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -65,7 +65,7 @@ module.exports = {
 				}
 			).setDescription( `Bozuk sistem tespit edildiğinde önce sistem geri alınmaksızın silinir, sonra aşağıdaki cezalar uygulanır. Sistemin doğurduğu sonuçlara göre ağırlaştırılmış ceza verilebilir.` ).author.name = `Bozuk Sistemler`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -79,7 +79,7 @@ module.exports = {
 				}
 			).setDescription( `Tuzak sistemleri tapu içerisinde ise ceza uygulanmaz, fakat değilse aşağıdaki cezalar uygulanır.` ).author.name = `Tuzak Sistemleri`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -93,7 +93,7 @@ module.exports = {
 				}
 			).setDescription( `Tapu Troll kuralları çiğnenirse ve oyuncu geri düzeltmezse aşağıdaki cezalar uygulanır. Yapılanın büyüklüğüne göre ağırlaştırılmış ceza verilebilir.` ).author.name = `Tapu Trolleme`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -107,7 +107,7 @@ module.exports = {
 				}
 			).setDescription( `Tp Tuzağı kuralları çiğnenirse aşağıdaki cezalar uygulanır.` ).author.name = `TP Tuzağı`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -121,7 +121,7 @@ module.exports = {
 				}
 			).setDescription( `Dupe/Bug kuralları çiğnenirse aşağıdaki cezalar uygulanır.` ).author.name = `Dupe/Bug`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -135,7 +135,7 @@ module.exports = {
 				}
 			).setDescription( `Hile yaptığınıza dair herhangi kanıt vb. şeyler rapor edilirse ve hile yetkili gözünden kanıtlanırsa aşağıdaki cezalar uygulanır.` ).author.name = `Hile`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
+				await penaltyChannel?.send( {embeds: [embed]} );
 			} catch ( e ) {
 				console.log( e );
 			}
@@ -153,17 +153,17 @@ module.exports = {
 				}
 			).setDescription( `Aşağıdaki Discord kurallarına uymadığınızda belirtilen cezalara tabi tutulacaksınız. Yapılana göre ağırlaştırılmış ceza verilebilir.` ).author.name = `Discord`;
 			try {
-				await penaltyChannel.send( {embeds: [embed]} );
-				message.delete();
+				await penaltyChannel?.send( {embeds: [embed]} );
+				await message?.delete();
 			} catch ( e ) {
 				console.log( e );
 			}
 
 		} else {
-			await message.channel.send( {content: `Cezalar bölümümüz <#${config.punishChannel.id}> kanalındadır.`} ).then( cha => {
+			await message.channel?.send( {content: `Cezalar bölümümüz <#${penaltyChannel.id}> kanalındadır.`} ).then( cha => {
 				setTimeout( () => {
-					cha.delete();
-					message.delete();
+					cha?.delete();
+					message?.delete();
 				}, 15000 );
 			} ).catch( ( e ) => console.log( e ) );
 		}

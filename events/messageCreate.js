@@ -17,16 +17,17 @@ client.on( "messageCreate", async ( message ) => {
 		.setAuthor( {name: "• Log", iconURL: message.guild.iconURL( {dynamic: true} )} )
 		.setFooter( {
 			text: 'Developed by xaprier',
-			iconURL: message.guild.members.cache.get( config.developer ).displayAvatarURL( {dynamic: true} )
+			iconURL: message.guild.members.cache.get( config.developer )?.displayAvatarURL( {dynamic: true} )
 		} )
+		.setThumbnail( message.author?.displayAvatarURL( {dynamic: true} ) )
 		.setTimestamp();
 
 	if ( !command ) {
 		embed.setDescription( `${message.author.tag} oyuncusu **${cmd}** komutunu gerçekleştiremedi` ).setColor( "RED" );
-		await message.guild.channels.cache.get( `${config.logChannel}` ).send( {embeds: [embed]} );
+		await message.guild.channels.cache.get( `${config.logChannel}` )?.send( {embeds: [embed]} );
 		return;
 	}
 	await command.run( client, message, args );
 	embed.setDescription( `${message.author.tag} oyuncusu **${cmd}** komutunu gerçekleştirdi` ).setColor( "GREEN" );
-	await message.guild.channels.cache.get( `${config.logChannel}` ).send( {embeds: [embed]} );
+	await message.guild.channels.cache.get( `${config.logChannel}` )?.send( {embeds: [embed]} );
 } );
